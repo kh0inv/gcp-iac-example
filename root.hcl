@@ -1,5 +1,6 @@
 locals {
   common_config = read_terragrunt_config("common.hcl")
+  env_config    = read_terragrunt_config(find_in_parent_folder("env.hcl"))
 }
 
 generate "provider" {
@@ -8,7 +9,7 @@ generate "provider" {
   contents  = <<EOF
 provider "google" {
   project_name = ${local.common_config.inputs.project_name}
-  region       = ${local.common_config.inputs.region}
+  region       = ${local.env_config.inputs.region}
 }
 EOF
 }
@@ -25,4 +26,3 @@ remote_state {
     if_exists = "overwrite_terragrunt"
   }
 }
-

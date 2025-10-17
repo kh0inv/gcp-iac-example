@@ -1,6 +1,5 @@
 inputs = {
-  project_name = "gcp-example-project"
-  region       = "us-west1"
+  project_name = "gcp-iac-example"
 
   labels = {
     provisioned-by = "tofu-terragrunt"

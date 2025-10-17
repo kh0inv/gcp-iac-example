@@ -1,10 +1,5 @@
 terraform {
-  source = "../../modules/${basename(get_terragrunt_dir())}"
-}
-
-include "common" {
-  path   = find_in_parent_folders("common.hcl")
-  expose = true
+  source = "../../../modules/${basename(get_terragrunt_dir())}"
 }
 
 include "root" {
@@ -12,7 +7,12 @@ include "root" {
   expose = true
 }
 
+include "common" {
+  path   = find_in_parent_folders("common.hcl")
+  expose = true
+}
+
 inputs = {
-  vpc_network_name        = "test-vpc-1"
+  vpc_network_name        = "mynetwork"
   auto_create_subnetworks = true
 }

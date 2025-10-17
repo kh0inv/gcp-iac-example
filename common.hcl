@@ -1,5 +1,5 @@
 inputs = {
-  project_name = "gcp-iac-example"
+  project_name = "qwiklabs-gcp-04-63cb700a6894"
 
   labels = {
     provisioned-by = "tofu-terragrunt"

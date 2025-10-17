@@ -1,9 +1,9 @@
-inputs {
+inputs = {
   env_name = "vpc-network-and-vm-instances"
-  region   = "us-west1"
-  zone     = "us-west1c"
+  region   = "europe-west1"
+  zone     = "europe-west1-d"
 
   labels = {
-    environment = input.env_name
+    environment = "test-env-1341"
   }
 }

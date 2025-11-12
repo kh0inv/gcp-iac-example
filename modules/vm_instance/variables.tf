@@ -47,6 +47,11 @@ variable "boot_disk_image" {
   type        = string
 }
 
+variable "network" {
+  description = "The name or self_link of the network to attach this interface to."
+  type        = string
+}
+
 variable "vpc_subnetwork" {
   description = " The name or self_link of the subnetwork to attach this interface to."
   type        = string

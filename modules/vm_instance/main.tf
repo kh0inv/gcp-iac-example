@@ -22,8 +22,8 @@ resource "google_compute_instance" "vm_instance" {
     }
   }
 
-
   network_interface {
+    network    = var.network
     subnetwork = var.vpc_subnetwork
     dynamic "access_config" {
       for_each = var.external_ip != null ? [1] : [0]

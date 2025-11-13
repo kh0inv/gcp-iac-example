@@ -1,8 +1,8 @@
 inputs = {
-  project_name = "qwiklabs-gcp-04-63cb700a6894"
+  project_name = "qwiklabs-gcp-02-2671273cb834"
   environment  = "01-implement-load-balancing-on-compute-engine"
-  region       = "europe-west1"
-  zone         = "europe-west1-d"
+  region       = "us-west1"
+  zone         = "us-west1-c"
 
   labels = {
     environment = "01-implement-load-balancing-on-compute-engine"

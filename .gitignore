@@ -1,0 +1,8 @@
+# Terragrunt cache
+**/.terragrunt-cache/
+
+# Terraform/OpenTofu lock files
+**/.terraform.lock.hcl
+
+# OpenTofu state files
+opentofu-states/

@@ -1,14 +1,24 @@
-output "network" {
-  description = " The URI of the VPC network."
-  value       = google_compute_network.vpc_network.self_link
+output "self_link" {
+  description = "The URI of the created resource."
+  value       = google_compute_instance.vm_instance.self_link
 }
 
-output "network_name" {
-  description = "The name of the VPC network."
-  value       = google_compute_network.vpc_network.name
+output "id" {
+  description = "An identifier for the resource with format projects/{{project}}/zones/{{zone}}/instances/{{name}}"
+  value       = google_compute_instance.vm_instance.id
 }
 
-output "network_id" {
-  description = "The identifier of the VPC network with format projects/{{project}}/global/networks/{{name}}."
-  value       = google_compute_network.vpc_network.id
+output "instance_id" {
+  description = "The server-assigned unique identifier of this instance. Example: 4567719474035761998"
+  value       = google_compute_instance.vm_instance.instance_id
+}
+
+output "instance_name" {
+  description = "The generated name of the GCloud VM Instance. Example: myubuntu2010-vm-tfa2c4"
+  value       = google_compute_instance.vm_instance.name
+}
+
+output "external_ip" {
+  description = "The external IP address attached to the VM instance."
+  value       = google_compute_instance.vm_instance.network_interface[0].access_config[0].nat_ip
 }

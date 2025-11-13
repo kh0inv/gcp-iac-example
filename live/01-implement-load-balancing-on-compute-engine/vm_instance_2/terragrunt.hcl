@@ -1,5 +1,5 @@
 terraform {
-  source = "../../../modules/${basename(get_terragrunt_dir())}"
+  source = "../../../modules/vm_instance"
 }
 
 include "root" {

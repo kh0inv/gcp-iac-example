@@ -1,6 +1,14 @@
 locals {
   external_ip     = coalesce(var.external_ip, google_compute_address.external_ip.0.address)
   google_iap_cidr = "35.235.240.0/20" # IAP netblock - https://cloud.google.com/iap/docs/using-tcp-forwarding
+
+  network_name = basename(var.network)
+  all_network_tags = distinct(concat(
+    var.network_tags,
+    var.allow_http ? ["http-server"] : [],
+    var.allow_https ? ["https-server"] : [],
+    var.allow_load_balancer_health ? ["lb-health-check"] : []
+  ))
 }
 
 resource "google_compute_address" "external_ip" {
@@ -13,7 +21,7 @@ resource "google_compute_instance" "vm_instance" {
   name         = var.vm_name
   machine_type = var.machine_type
   zone         = var.zone
-  tags         = var.network_tags
+  tags         = local.all_network_tags
 
   boot_disk {
     initialize_params {
@@ -58,7 +66,7 @@ resource "google_compute_instance" "vm_instance" {
 
 resource "google_compute_firewall" "allow_rdp" {
   count       = var.allow_rdp ? 1 : 0
-  name        = "allow-rdp"
+  name        = format("%s-allow-rdp", local.network_name)
   description = "Allows RDP traffic on port 3389"
   network     = google_compute_instance.vm_instance.network_interface[0].network
 
@@ -72,7 +80,7 @@ resource "google_compute_firewall" "allow_rdp" {
 
 resource "google_compute_firewall" "allow_http" {
   count       = var.allow_http ? 1 : 0
-  name        = "allow-http"
+  name        = format("%s-allow-http", local.network_name)
   description = "Allows incoming HTTP traffic on port 80"
   network     = google_compute_instance.vm_instance.network_interface[0].network
 
@@ -83,4 +91,19 @@ resource "google_compute_firewall" "allow_http" {
 
   source_ranges = ["0.0.0.0/0"]
   target_tags   = ["http-server"]
+}
+
+resource "google_compute_firewall" "allow_https" {
+  count       = var.allow_https ? 1 : 0
+  name        = format("%s-allow-https", local.network_name)
+  description = "Allows incoming HTTPS traffic on port 443"
+  network     = google_compute_instance.vm_instance.network_interface[0].network
+
+  allow {
+    protocol = "tcp"
+    ports    = ["443"]
+  }
+
+  source_ranges = ["0.0.0.0/0"]
+  target_tags   = ["https-server"]
 }

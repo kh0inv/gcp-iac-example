@@ -28,7 +28,7 @@ variable "zone" {
 }
 
 variable "network_tags" {
-  description = "List of network tags for the VM instance. These tags are used for setting up firewall rules to & from the VM instance. Setting this is permanent. Changing it later will require the VM to be destroyed and re-created. Use empty array [] if you intend to not use any network tags for this VM instance."
+  description = "List of network tags for the VM instance. These tags are used for setting up firewall rules to & from the VM instance. Use empty array [] if you intend to not use any network tags for this VM instance."
   type        = list(string)
   default     = []
 }
@@ -90,9 +90,20 @@ variable "external_ip_name" {
   default     = ""
 }
 
-
 variable "allow_http" {
-  description = "Setting this to \"true\" also creates firewall rules which allow HTTP access to the VM"
+  description = "Setting this to \"true\" creates firewall rules which allow HTTP access to the VM instances that have \"http-server\" network tag."
+  type        = bool
+  default     = false
+}
+
+variable "allow_https" {
+  description = "Setting this to \"true\" creates firewall rules which allow HTTPS access to the VM instances that have \"https-server\" network tag."
+  type        = bool
+  default     = false
+}
+
+variable "allow_load_balancer_health" {
+  description = "Setting this to \"true\" creates firewall rules which allow health check traffic to the VM instances that have \"lb-health-check\" network tag."
   type        = bool
   default     = false
 }

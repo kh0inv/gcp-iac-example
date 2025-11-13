@@ -43,6 +43,10 @@ variable "boot_disk_size" {
   description = "The size of the boot disk in GigaBytes. Must be at least the size of the boot disk image."
   type        = number
   default     = 10
+  validation {
+    condition     = !strcontains(var.boot_disk_image, "windows-cloud") || var.boot_disk_size >= 50
+    error_message = "Windows images from the 'windows-cloud' project require a boot disk size of more than 50GB."
+  }
 }
 
 variable "boot_disk_type" {

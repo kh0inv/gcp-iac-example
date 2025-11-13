@@ -5,7 +5,7 @@ locals {
 
 resource "google_compute_address" "external_ip" {
   count  = var.external_ip != "" ? 0 : 1
-  name   = coalesce(var.external_ip_name, "${var.vm_name}-vmip")
+  name   = coalesce(var.external_ip_name, "${var.vm_name}-ip")
   region = var.region
 }
 
@@ -56,9 +56,9 @@ resource "google_compute_instance" "vm_instance" {
 #   }
 # }
 
-resource "google_compute_firewall" "allow_rdp_to_vm" {
+resource "google_compute_firewall" "allow_rdp" {
   count       = var.allow_rdp ? 1 : 0
-  name        = "allow-rdp-to-${var.vm_name}"
+  name        = "allow-rdp"
   description = "Allows RDP traffic on port 3389"
   network     = google_compute_instance.vm_instance.network_interface[0].network
 
@@ -72,7 +72,7 @@ resource "google_compute_firewall" "allow_rdp_to_vm" {
 
 resource "google_compute_firewall" "allow_http" {
   count       = var.allow_http ? 1 : 0
-  name        = "allow-http-to-${var.vm_name}"
+  name        = "allow-http"
   description = "Allows incoming HTTP traffic on port 80"
   network     = google_compute_instance.vm_instance.network_interface[0].network
 

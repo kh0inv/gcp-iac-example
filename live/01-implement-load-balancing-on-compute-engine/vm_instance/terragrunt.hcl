@@ -18,7 +18,7 @@ include "env" {
 }
 
 inputs = {
-  vm_name      = "gcelab"
+  vm_name      = format("%s-vm-%s", include.env.inputs.name_suffix, 1)
   machine_type = "e2-medium"
   region       = include.env.inputs.region
   zone         = include.env.inputs.zone

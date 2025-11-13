@@ -1,5 +1,5 @@
 terraform {
-  source = "../../../modules/vm_instance"
+  source = "../../../modules/${basename(get_terragrunt_dir())}"
 }
 
 include "root" {
@@ -18,11 +18,6 @@ include "env" {
 }
 
 inputs = {
-  vm_name      = "gcelab-window"
-  machine_type = "e2-medium"
-  region       = include.env.inputs.region
-  zone         = include.env.inputs.zone
-
-  boot_disk_size  = 50
-  boot_disk_image = "windows-cloud/windows-2022"
+  vpc_network_name        = format("%s-vpc-%s", include.env.inputs.name_suffix, 1)
+  auto_create_subnetworks = true
 }

@@ -13,7 +13,7 @@ resource "google_compute_instance" "vm_instance" {
   name         = var.vm_name
   machine_type = var.machine_type
   zone         = var.zone
-  tags         = var.tags
+  tags         = var.network_tags
 
   boot_disk {
     initialize_params {
@@ -44,26 +44,43 @@ resource "google_compute_instance" "vm_instance" {
   # }
 }
 
-resource "google_compute_firewall" "login_to_vm" {
-  count         = var.allow_login ? 1 : 0
-  name          = "login-to-${var.vm_name}"
-  network       = google_compute_instance.vm_instance.network_interface.0.network
-  source_ranges = distinct(concat(var.allowed_cidrs, [local.google_iap_cidr]))
+# resource "google_compute_firewall" "login_to_vm" {
+#   count         = var.allow_login ? 1 : 0
+#   name          = "login-to-${var.vm_name}"
+#   network       = google_compute_instance.vm_instance.network_interface.0.network
+#   source_ranges = distinct(concat(var.allowed_cidrs, [local.google_iap_cidr]))
 
-  allow {
-    protocol = "tcp"
-    ports    = distinct(concat(var.allowed_ports, [22, 3389]))
-  }
-}
+#   allow {
+#     protocol = "tcp"
+#     ports    = distinct(concat(var.allowed_ports, [22, 3389]))
+#   }
+# }
 
 resource "google_compute_firewall" "allow_rdp_to_vm" {
-  count         = var.allow_rdp ? 1 : 0
-  name          = "rdp-to-${var.vm_name}"
-  network       = google_compute_instance.vm_instance.network_interface[0].network
-  source_ranges = google_compute_instance.vm_instance.network_interface[0].access_config[0].nat_ip
+  count       = var.allow_rdp ? 1 : 0
+  name        = "allow-rdp-to-${var.vm_name}"
+  description = "Allows RDP traffic on port 3389"
+  network     = google_compute_instance.vm_instance.network_interface[0].network
 
   allow {
     protocol = "tcp"
     ports    = [3389]
   }
+
+  source_ranges = ["0.0.0.0/0"]
+}
+
+resource "google_compute_firewall" "allow_http" {
+  count       = var.allow_http ? 1 : 0
+  name        = "allow-http-to-${var.vm_name}"
+  description = "Allows incoming HTTP traffic on port 80"
+  network     = google_compute_instance.vm_instance.network_interface[0].network
+
+  allow {
+    protocol = "tcp"
+    ports    = ["80"]
+  }
+
+  source_ranges = ["0.0.0.0/0"]
+  target_tags   = ["http-server"]
 }

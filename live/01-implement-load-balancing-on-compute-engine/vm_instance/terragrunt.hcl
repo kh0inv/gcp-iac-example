@@ -25,5 +25,7 @@ inputs = {
 
   boot_disk_image = "debian-cloud/debian-12"
 
+  network_tags = ["http-server"]
+
   metadata_startup_script = "apt-get update && sudo apt-get install nginx -y"
 }

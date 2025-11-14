@@ -1,5 +1,5 @@
 terraform {
-  source = "../../../modules/vm_instance"
+  source = "../../../modules/vm-instance"
 }
 
 include "root" {

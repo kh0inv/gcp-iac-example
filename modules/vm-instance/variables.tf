@@ -102,7 +102,7 @@ variable "allow_https" {
   default     = false
 }
 
-variable "allow_load_balancer_health" {
+variable "allow_load_balancer_health_check" {
   description = "Setting this to \"true\" creates firewall rules which allow health check traffic to the VM instances that have \"lb-health-check\" network tag."
   type        = bool
   default     = false

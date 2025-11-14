@@ -7,7 +7,7 @@ locals {
     var.network_tags,
     var.allow_http ? ["http-server"] : [],
     var.allow_https ? ["https-server"] : [],
-    var.allow_load_balancer_health ? ["lb-health-check"] : []
+    var.allow_load_balancer_health_check ? ["lb-health-check"] : []
   ))
 }
 
@@ -68,7 +68,7 @@ resource "google_compute_firewall" "allow_rdp" {
   count       = var.allow_rdp ? 1 : 0
   name        = format("%s-allow-rdp", local.network_name)
   description = "Allows RDP traffic on port 3389"
-  network     = google_compute_instance.vm_instance.network_interface[0].network
+  network     = local.network_name
 
   allow {
     protocol = "tcp"
@@ -82,7 +82,7 @@ resource "google_compute_firewall" "allow_http" {
   count       = var.allow_http ? 1 : 0
   name        = format("%s-allow-http", local.network_name)
   description = "Allows incoming HTTP traffic on port 80"
-  network     = google_compute_instance.vm_instance.network_interface[0].network
+  network     = local.network_name
 
   allow {
     protocol = "tcp"
@@ -97,7 +97,7 @@ resource "google_compute_firewall" "allow_https" {
   count       = var.allow_https ? 1 : 0
   name        = format("%s-allow-https", local.network_name)
   description = "Allows incoming HTTPS traffic on port 443"
-  network     = google_compute_instance.vm_instance.network_interface[0].network
+  network     = local.network_name
 
   allow {
     protocol = "tcp"

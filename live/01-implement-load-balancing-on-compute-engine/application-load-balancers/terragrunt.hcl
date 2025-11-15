@@ -26,11 +26,10 @@ dependency "managed-instance-group" {
 }
 
 inputs = {
+  region             = include.env.inputs.region
   load_balancer_name = format("%s-http-lb", include.env.inputs.name_suffix)
-
-  forwarding_rule_name = format("%s-http-lb", include.env.inputs.name_suffix)
-  instance_group_name  = format("%s-mig", include.env.inputs.name_suffix)
-  region               = include.env.inputs.region
-  ip_name              = "lb-ipv4-1"
-  health_check_name    = "http-basic-check"
+  port               = 80
+  protocol           = "HTTP"
+  ip_protocol        = "TCP"
+  network            = dependency.vpc_network.outputs.network_name
 }

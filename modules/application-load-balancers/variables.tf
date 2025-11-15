@@ -18,7 +18,47 @@ variable "network" {
   type        = string
 }
 
+variable "subnetwork" {
+  description = ""
+  type        = string
+}
+
+variable "protocol" {
+  description = ""
+  type        = string
+}
+
+variable "ip_protocol" {
+  description = ""
+  type        = string
+}
+
+variable "port" {
+  description = ""
+  type        = number
+}
+
 variable "ip_name" {
+  description = ""
+  type        = string
+}
+
+variable "target_http_proxies_name" {
+  description = ""
+  type        = string
+}
+
+variable "url_map_name" {
+  description = ""
+  type        = string
+}
+
+variable "backend_service_name" {
+  description = ""
+  type        = string
+}
+
+variable "backend_instance_group" {
   description = ""
   type        = string
 }

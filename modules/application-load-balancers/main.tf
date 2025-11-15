@@ -1,5 +1,8 @@
 locals {
-  network_name = basename(var.network)
+  network_name                   = basename(var.network)
+  create_internal_load_balancing = contains(["INTERNAL", "INTERNAL_MANAGED"], var.load_balancing_scheme)
+  create_proxy                   = false
+  create_url_map                 = false
 }
 
 resource "google_compute_forwarding_rule" "this" {
@@ -7,28 +10,30 @@ resource "google_compute_forwarding_rule" "this" {
   region = var.region
 
   ip_address            = google_compute_address.this.address
-  ip_protocol           = "TCP"
-  load_balancing_scheme = "INTERNAL_MANAGED"
+  ip_protocol           = var.ip_protocol
+  load_balancing_scheme = var.load_balancing_scheme
   ports                 = [var.port]
-  target                = google_compute_region_target_http_proxy.this.id
+  target                = local.create_proxy ? google_compute_region_target_http_proxy.this.id : null
+  backend_service       = google_compute_region_backend_service.this.id
   network               = var.network
-  subnetwork            = var.subnetwork
-  network_tier          = "STANDARD"
 }
 
 resource "google_compute_address" "this" {
-  name       = coalesce(var.ip_name, "${var.load_balancer_name}-ip")
-  ip_version = "IPV4"
-  region     = var.region
+  name         = coalesce(var.ip_name, "${var.load_balancer_name}-ip")
+  address_type = local.create_internal_load_balancing ? "INTERNAL" : "EXTERNAL"
+  ip_version   = var.ip_version
+  region       = var.region
 }
 
 resource "google_compute_region_target_http_proxy" "this" {
+  count   = local.create_proxy ? 1 : 0
   name    = coalesce(var.target_http_proxies_name, "${var.load_balancer_name}-regional-url-map")
   region  = var.region
   url_map = google_compute_region_url_map.this.id
 }
 
 resource "google_compute_region_url_map" "this" {
+  count           = local.create_url_map ? 1 : 0
   name            = coalesce(var.url_map_name, "${var.load_balancer_name}-regional-url-map")
   region          = var.region
   default_service = google_compute_region_backend_service.this.id
@@ -38,8 +43,7 @@ resource "google_compute_region_backend_service" "this" {
   name                  = coalesce(var.backend_service_name, "${var.load_balancer_name}-regional-backend-service")
   region                = var.region
   protocol              = var.protocol
-  port_name             = "http"
-  load_balancing_scheme = "INTERNAL_MANAGED"
+  load_balancing_scheme = var.load_balancing_scheme
 
   health_checks = [google_compute_region_health_check.this.id]
 

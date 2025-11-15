@@ -6,9 +6,10 @@ resource "google_compute_network" "this" {
 }
 
 resource "google_compute_subnetwork" "this" {
-  name    = var.subnetwork_name
-  network = google_compute_network.this.id
-  region  = var.region
+  name          = var.subnetwork_name
+  network       = google_compute_network.this.id
+  region        = var.region
+  ip_cidr_range = var.subnetwork_ip_cidr_range
 
   depends_on = [google_compute_network.this]
 }

@@ -33,6 +33,6 @@ inputs = {
   protocol               = "TCP"
   ip_protocol            = "TCP"
   network                = dependency.vpc_network.outputs.network
-  subnetwork             = "https://www.googleapis.com/compute/v1/projects/qwiklabs-gcp-02-1c360b41600c/regions/europe-west1/subnetworks/qwiklabs-gcp-vpc-1"
-  backend_instance_group = dependency.managed_instance_group.outputs.instance_group_self_link
+  subnetwork             = dependency.vpc_network.outputs.subnetwork
+  backend_instance_group = dependency.managed_instance_group.outputs.instance_group
 }

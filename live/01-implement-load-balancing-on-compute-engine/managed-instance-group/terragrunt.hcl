@@ -32,7 +32,8 @@ inputs = {
   machine_type           = "e2-medium"
   source_image           = "debian-cloud/debian-12"
 
-  network              = dependency.vpc_network.outputs.network_name
+  network              = dependency.vpc_network.outputs.network
+  subnetwork           = dependency.vpc_network.outputs.subnetwork
   network_tags         = ["backend", "lb-health-check"]
   allocate_external_ip = false
 

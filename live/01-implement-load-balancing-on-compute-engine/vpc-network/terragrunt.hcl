@@ -18,7 +18,9 @@ include "env" {
 }
 
 inputs = {
-  vpc_network_name        = format("%s-vpc-%s", include.env.inputs.name_suffix, 1)
-  vpc_subnetwork_name     = format("%s-vpc-subnet-%s", include.env.inputs.name_suffix, 1)
+  network_name            = format("%s-vpc-%s", include.env.inputs.name_suffix, 1)
   auto_create_subnetworks = false
+
+  subnetwork_name          = format("%s-vpc-subnet-%s", include.env.inputs.name_suffix, 1)
+  subnetwork_ip_cidr_range = "10.0.0.0/24"
 }

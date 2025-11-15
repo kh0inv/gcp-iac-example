@@ -78,12 +78,6 @@ variable "external_ip" {
   default     = ""
 }
 
-variable "metadata_startup_script" {
-  description = "The startup script"
-  type        = string
-  default     = ""
-}
-
 variable "external_ip_name" {
   description = "An arbitrary name to identify the External IP that will be generated & attached to the VM instance (if \"var.create_external_ip\" is set to \"true\"). Uses \"var.instance_name\" if nothing is specified here."
   type        = string
@@ -130,4 +124,16 @@ variable "allowed_ports" {
   description = "List of ports to be opened by the VM firewall rules for incoming traffic."
   type        = list(string)
   default     = []
+}
+
+variable "metadata_startup_script" {
+  description = "The startup script"
+  type        = string
+  default     = ""
+}
+
+variable "allocate_external_ip" {
+  description = "When set to true, the external IP address will be allocated for the instance. If false, the instance will only has an internal IP address."
+  type        = bool
+  default     = true
 }

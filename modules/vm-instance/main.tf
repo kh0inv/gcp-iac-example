@@ -1,6 +1,6 @@
 locals {
   external_ip     = coalesce(var.external_ip, google_compute_address.external_ip.0.address)
-  google_iap_cidr = "35.235.240.0/20" # IAP netblock - https://cloud.google.com/iap/docs/using-tcp-forwarding
+  google_iap_cidr = "35.235.240.0/20"
 
   network_name = basename(var.network)
   all_network_tags = distinct(concat(
@@ -12,12 +12,12 @@ locals {
 }
 
 resource "google_compute_address" "external_ip" {
-  count  = var.external_ip != "" ? 0 : 1
+  count  = var.external_ip != "" && var.allocate_external_ip ? 1 : 0
   name   = coalesce(var.external_ip_name, "${var.vm_name}-ip")
   region = var.region
 }
 
-resource "google_compute_instance" "vm_instance" {
+resource "google_compute_instance" "this" {
   name         = var.vm_name
   machine_type = var.machine_type
   zone         = var.zone

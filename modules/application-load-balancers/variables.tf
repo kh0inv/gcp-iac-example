@@ -1,13 +1,11 @@
 variable "load_balancer_name" {
-  description = ""
+  description = "The name for the load balancer. This is used as a prefix for the names of the load balancer resources."
   type        = string
-  default     = ""
 }
 
 variable "load_balancing_scheme" {
-  description = "Specifies the forwarding rule type"
+  description = "Specifies the forwarding rule type. For regional internal passthrough Network Load Balancers, this field must be INTERNAL. For regional external passthrough Network Load Balancers, this field must be EXTERNAL. For regional internal Application Load Balancers, this field must be INTERNAL_MANAGED. For regional external Application Load Balancers, this field must be EXTERNAL_MANAGED."
   type        = string
-  default     = ""
   validation {
     condition     = contains(["EXTERNAL", "EXTERNAL_MANAGED", "INTERNAL", "INTERNAL_MANAGED"], var.load_balancing_scheme)
     error_message = "Possible values are: EXTERNAL, EXTERNAL_MANAGED, INTERNAL, INTERNAL_MANAGED"
@@ -15,91 +13,85 @@ variable "load_balancing_scheme" {
 }
 
 variable "forwarding_rule_name" {
-  description = ""
+  description = "The name of the forwarding rule."
   type        = string
   default     = ""
 }
 
 variable "region" {
-  description = ""
+  description = "The region where the load balancer and its components will be created."
   type        = string
-  default     = ""
 }
 
 variable "network" {
   description = "The name or self_link of the network to attach this interface to."
   type        = string
-  default     = ""
 }
 
 variable "subnetwork" {
-  description = ""
+  description = "The name or self_link of the subnetwork to attach this interface to."
   type        = string
   default     = ""
 }
 
 variable "protocol" {
-  description = ""
+  description = "The protocol this BackendService uses for connectivity to backends. Possible values are HTTP, HTTPS, HTTP2, TCP, SSL, and UDP."
   type        = string
-  default     = ""
 }
 
 variable "ip_protocol" {
-  description = ""
+  description = "The IP protocol to which this rule applies. For regional external passthrough Network Load Balancers, valid values are L3_DEFAULT, TCP, UDP, ESP, AH, SCTP, ICMP. For regional internal passthrough Network Load Balancers, valid values are TCP, UDP, and L3_DEFAULT. For regional external and internal Application Load Balancers, TCP is the only valid option."
   type        = string
-  default     = ""
 }
 
 variable "port" {
-  description = ""
+  description = "The port that the load balancer is listening on."
   type        = number
-  default     = 0
 }
 
 variable "ip_name" {
-  description = ""
+  description = "The name of the ip address."
   type        = string
   default     = ""
 }
 
 variable "ip_version" {
-  description = ""
+  description = "The IP Version that will be used by this address. Valid options are IPV4 or IPV6."
   type        = string
   default     = "IPV4"
 }
 
 variable "create_proxy" {
-  description = ""
+  description = "If true, a target http proxy and url map will be created."
   type        = bool
   default     = false
 }
 
 variable "target_http_proxies_name" {
-  description = ""
+  description = "The name of the target http proxy."
   type        = string
   default     = ""
 }
 
 variable "url_map_name" {
-  description = ""
+  description = "The name of the url map."
   type        = string
   default     = ""
 }
 
 variable "backend_service_name" {
-  description = ""
+  description = "The name of the backend service."
   type        = string
   default     = ""
 }
 
 variable "backend_instance_group" {
-  description = ""
+  description = "The instance group that will receive traffic from the forwarding rule."
   type        = string
-  default     = ""
 }
 
 variable "health_check_name" {
-  description = ""
+  description = "Name of the health check. If not provided, a name will be generated using the load_balancer_name."
   type        = string
   default     = ""
 }

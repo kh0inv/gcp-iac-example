@@ -58,7 +58,7 @@ variable "metadata_startup_script" {
 }
 
 variable "allocate_external_ip" {
-  description = ""
+  description = "When set to true, the external IP address will be allocated for each instance. If false, the instances will only have an internal IP address"
   type        = bool
   default     = true
 }

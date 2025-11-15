@@ -11,3 +11,5 @@ wget -O terragrunt https://github.com/gruntwork-io/terragrunt/releases/download/
 sudo mv terragrunt /usr/bin
 
 sudo chmod +x /usr/bin/terragrunt
+
+rm -rf ~/temp

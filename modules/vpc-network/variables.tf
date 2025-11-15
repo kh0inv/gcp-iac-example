@@ -1,7 +1,7 @@
 variable "network_name" {
   description = "The name of the VPC network."
   type        = string
-  default     = "vpc-network"
+  default     = "default-network"
 }
 
 variable "network_routing_mode" {
@@ -19,11 +19,16 @@ variable "auto_create_subnetworks" {
 variable "subnetwork_name" {
   description = "The name of the VPC subnetwork."
   type        = string
-  default     = "vpc-subnetwork"
+  default     = "default-subnetwork"
 }
 
 variable "region" {
-  description = "The GCP region for this subnetwork"
+  description = "The region for this subnetwork"
   type        = string
   default     = ""
+}
+
+variable "subnetwork_ip_cidr_range" {
+  description = "The range of internal addresses that are owned by this subnetwork"
+  type        = string
 }

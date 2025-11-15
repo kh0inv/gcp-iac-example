@@ -35,7 +35,7 @@ resource "google_compute_instance" "vm_instance" {
     network = var.network
 
     dynamic "access_config" {
-      for_each = var.external_ip != "" ? [1] : [0]
+      for_each = var.external_ip != "" ? [true] : []
       content {
         nat_ip = local.external_ip
       }

@@ -24,8 +24,9 @@ resource "google_compute_instance_template" "this" {
     network    = var.network
     subnetwork = var.subnetwork
 
-    access_config {
-      # add external ip to fetch packages
+    dynamic "access_config" {
+      for_each = var.allocate_external_ip ? [true] : []
+      content {}
     }
   }
   metadata_startup_script = var.metadata_startup_script

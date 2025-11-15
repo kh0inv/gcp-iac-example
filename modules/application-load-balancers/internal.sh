@@ -6,8 +6,10 @@ gcloud compute forwarding-rules create prime-lb \
     --ports 80
 
 gcloud compute backend-services create prime-service \
-    --load-balancing-scheme internal --region=REGION \
-    --protocol tcp --health-checks ilb-health
+    --load-balancing-scheme internal \
+    --region=REGION \
+    --protocol tcp \
+    --health-checks ilb-health
 
 gcloud compute backend-services add-backend prime-service \
     --instance-group backend --instance-group-zone=ZONE \

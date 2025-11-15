@@ -1,5 +1,5 @@
 terraform {
-  source = "../../../modules/${basename(get_terragrunt_dir())}"
+  source = "${get_repo_root()}/modules/${basename(get_terragrunt_dir())}"
 }
 
 include "root" {
@@ -22,7 +22,8 @@ dependency "vpc_network" {
 }
 
 inputs = {
-  region              = include.env.inputs.region
+  region = include.env.inputs.region
+
   instance_group_name = format("%s-mig", include.env.inputs.name_suffix)
   base_instance_name  = format("%s-vm-%s", include.env.inputs.name_suffix, "backend")
   target_size         = 3

@@ -1,5 +1,5 @@
 terraform {
-  source = "../../../modules/application-load-balancers"
+  source = "${get_repo_root()}/modules/application-load-balancers"
 }
 
 include "root" {

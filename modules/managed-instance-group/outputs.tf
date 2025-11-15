@@ -1,11 +1,11 @@
+output "instance_group_manager" {
+  description = "The URI of the managed instance group manager."
+  value       = google_compute_region_instance_group_manager.this.self_link
+}
+
 output "instance_group_manager_id" {
   description = "The ID of the managed instance group manager."
   value       = google_compute_region_instance_group_manager.this.id
-}
-
-output "instance_group_manager_self_link" {
-  description = "The URI of the managed instance group manager."
-  value       = google_compute_region_instance_group_manager.this.self_link
 }
 
 output "instance_group_manager_name" {
@@ -13,19 +13,19 @@ output "instance_group_manager_name" {
   value       = google_compute_region_instance_group_manager.this.name
 }
 
-output "instance_group_self_link" {
+output "instance_group" {
   description = "The URI of the underlying instance group created by the manager."
   value       = google_compute_region_instance_group_manager.this.instance_group
+}
+
+output "instance_template" {
+  description = "The URI of the instance template."
+  value       = google_compute_instance_template.this.self_link
 }
 
 output "instance_template_id" {
   description = "The ID of the instance template."
   value       = google_compute_instance_template.this.id
-}
-
-output "instance_template_self_link" {
-  description = "The URI of the instance template."
-  value       = google_compute_instance_template.this.self_link
 }
 
 output "instance_template_name" {

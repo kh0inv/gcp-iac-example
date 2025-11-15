@@ -1,5 +1,5 @@
 terraform {
-  source = "../../../modules/${basename(get_terragrunt_dir())}"
+  source = "${get_repo_root()}/modules/${basename(get_terragrunt_dir())}"
 }
 
 include "root" {
@@ -19,5 +19,6 @@ include "env" {
 
 inputs = {
   vpc_network_name        = format("%s-vpc-%s", include.env.inputs.name_suffix, 1)
-  auto_create_subnetworks = true
+  vpc_subnetwork_name     = format("%s-vpc-subnet-%s", include.env.inputs.name_suffix, 1)
+  auto_create_subnetworks = false
 }

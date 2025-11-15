@@ -13,7 +13,7 @@ resource "google_compute_forwarding_rule" "this" {
   ip_protocol           = var.ip_protocol
   load_balancing_scheme = var.load_balancing_scheme
   ports                 = [var.port]
-  target                = local.create_proxy ? google_compute_region_target_http_proxy.this.id : null
+  target                = local.create_proxy ? google_compute_region_target_http_proxy.this[0].id : null
   backend_service       = google_compute_region_backend_service.this.id
   network               = var.network
 }
@@ -23,13 +23,15 @@ resource "google_compute_address" "this" {
   address_type = local.create_internal_load_balancing ? "INTERNAL" : "EXTERNAL"
   ip_version   = var.ip_version
   region       = var.region
+  network      = var.network
 }
 
 resource "google_compute_region_target_http_proxy" "this" {
-  count   = local.create_proxy ? 1 : 0
-  name    = coalesce(var.target_http_proxies_name, "${var.load_balancer_name}-regional-url-map")
-  region  = var.region
-  url_map = google_compute_region_url_map.this.id
+  count      = local.create_proxy ? 1 : 0
+  name       = coalesce(var.target_http_proxies_name, "${var.load_balancer_name}-regional-url-map")
+  region     = var.region
+  url_map    = google_compute_region_url_map.this[0].id
+  depends_on = [google_compute_region_url_map.this]
 }
 
 resource "google_compute_region_url_map" "this" {
@@ -37,6 +39,7 @@ resource "google_compute_region_url_map" "this" {
   name            = coalesce(var.url_map_name, "${var.load_balancer_name}-regional-url-map")
   region          = var.region
   default_service = google_compute_region_backend_service.this.id
+  depends_on      = [google_compute_region_backend_service.this]
 }
 
 resource "google_compute_region_backend_service" "this" {
@@ -48,10 +51,10 @@ resource "google_compute_region_backend_service" "this" {
   health_checks = [google_compute_region_health_check.this.id]
 
   backend {
-    group           = var.backend_instance_group
-    balancing_mode  = "UTILIZATION"
-    capacity_scaler = 1.0
+    group          = var.backend_instance_group
+    balancing_mode = local.create_internal_load_balancing ? "CONNECTION" : "UTILIZATION"
   }
+  depends_on = [google_compute_region_health_check.this]
 }
 
 resource "google_compute_region_health_check" "this" {

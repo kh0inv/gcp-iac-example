@@ -18,7 +18,7 @@ include "env" {
 }
 
 dependency "vpc_network" {
-  config_path = "../vpc_network"
+  config_path = "../vpc-network"
 }
 
 inputs = {

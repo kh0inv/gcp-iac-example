@@ -18,19 +18,21 @@ include "env" {
 }
 
 dependency "vpc_network" {
-  config_path = "../vpc_network"
+  config_path = "../vpc-network"
 }
 
-dependency "managed-instance-group" {
+dependency "managed_instance_group" {
   config_path = "../managed-instance-group"
 }
 
 inputs = {
-  region                = include.env.inputs.region
-  load_balancer_name    = format("%s-ilb", include.env.inputs.name_suffix)
-  load_balancing_scheme = "INTERNAL"
-  port                  = 80
-  protocol              = "TCP"
-  ip_protocol           = "TCP"
-  network               = dependency.vpc_network.outputs.network_name
+  region                 = include.env.inputs.region
+  load_balancer_name     = format("%s-ilb", include.env.inputs.name_suffix)
+  load_balancing_scheme  = "INTERNAL"
+  port                   = 80
+  protocol               = "TCP"
+  ip_protocol            = "TCP"
+  network                = dependency.vpc_network.outputs.network
+  subnetwork             = "https://www.googleapis.com/compute/v1/projects/qwiklabs-gcp-02-1c360b41600c/regions/europe-west1/subnetworks/qwiklabs-gcp-vpc-1"
+  backend_instance_group = dependency.managed_instance_group.outputs.instance_group_self_link
 }

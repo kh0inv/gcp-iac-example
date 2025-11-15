@@ -8,6 +8,8 @@ resource "google_compute_region_instance_group_manager" "this" {
 
   base_instance_name = var.base_instance_name
   target_size        = var.target_size
+
+  depends_on = [google_compute_instance_template.this]
 }
 
 resource "google_compute_instance_template" "this" {

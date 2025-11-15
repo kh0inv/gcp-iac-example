@@ -9,4 +9,6 @@ resource "google_compute_subnetwork" "this" {
   name    = var.subnetwork_name
   network = google_compute_network.this.id
   region  = var.region
+
+  depends_on = [google_compute_network.this]
 }

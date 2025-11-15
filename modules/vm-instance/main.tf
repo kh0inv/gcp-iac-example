@@ -44,12 +44,6 @@ resource "google_compute_instance" "vm_instance" {
 
   allow_stopping_for_update = var.allow_stopping_for_update
   metadata_startup_script   = var.metadata_startup_script
-
-  # service_account {
-  #   # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
-  #   email  = google_service_account.default.email
-  #   scopes = ["cloud-platform"]
-  # }
 }
 
 # resource "google_compute_firewall" "login_to_vm" {

@@ -16,6 +16,12 @@ resource "google_compute_forwarding_rule" "this" {
   target                = local.create_proxy ? google_compute_region_target_http_proxy.this[0].id : null
   backend_service       = google_compute_region_backend_service.this.id
   network               = var.network
+
+  depends_on = [
+    google_compute_address.this,
+    google_compute_region_target_http_proxy.this,
+    google_compute_region_target_http_proxy.this
+  ]
 }
 
 resource "google_compute_address" "this" {
@@ -27,10 +33,11 @@ resource "google_compute_address" "this" {
 }
 
 resource "google_compute_region_target_http_proxy" "this" {
-  count      = local.create_proxy ? 1 : 0
-  name       = coalesce(var.target_http_proxies_name, "${var.load_balancer_name}-regional-url-map")
-  region     = var.region
-  url_map    = google_compute_region_url_map.this[0].id
+  count   = local.create_proxy ? 1 : 0
+  name    = coalesce(var.target_http_proxies_name, "${var.load_balancer_name}-regional-url-map")
+  region  = var.region
+  url_map = google_compute_region_url_map.this[0].id
+
   depends_on = [google_compute_region_url_map.this]
 }
 
@@ -39,7 +46,8 @@ resource "google_compute_region_url_map" "this" {
   name            = coalesce(var.url_map_name, "${var.load_balancer_name}-regional-url-map")
   region          = var.region
   default_service = google_compute_region_backend_service.this.id
-  depends_on      = [google_compute_region_backend_service.this]
+
+  depends_on = [google_compute_region_backend_service.this]
 }
 
 resource "google_compute_region_backend_service" "this" {
@@ -54,6 +62,7 @@ resource "google_compute_region_backend_service" "this" {
     group          = var.backend_instance_group
     balancing_mode = local.create_internal_load_balancing ? "CONNECTION" : "UTILIZATION"
   }
+
   depends_on = [google_compute_region_health_check.this]
 }
 

@@ -19,9 +19,9 @@ include "env" {
 
 inputs = {
   bucket_name = format("%s-bucket-%s", include.env.inputs.name_suffix, 1)
-  location    = "US-WEST1"
+  location    = "US-CENTRAL1"
 
-  uniform_bucket_level_access = false
+  uniform_bucket_level_access = true
   bucket_access_role          = "READER"
   bucket_access_entity        = "allUsers"
 }

@@ -8,7 +8,9 @@ resource "google_storage_bucket" "this" {
 
 resource "google_storage_bucket_access_control" "this" {
   count  = var.uniform_bucket_level_access ? 1 : 0
-  bucket = google_storage_bucket.bucket.name
+  bucket = google_storage_bucket.this.name
   role   = var.bucket_access_role
   entity = var.bucket_access_entity
+
+  depends_on = [google_storage_bucket.this]
 }

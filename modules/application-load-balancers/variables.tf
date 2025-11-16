@@ -90,6 +90,12 @@ variable "backend_instance_group" {
   type        = string
 }
 
+variable "backend_network_tags" {
+  description = "The list of network tags to identify valid sources or targets for network firewalls."
+  type        = list(string)
+  default     = []
+}
+
 variable "health_check_name" {
   description = "Name of the health check. If not provided, a name will be generated using the load_balancer_name."
   type        = string

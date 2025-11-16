@@ -75,10 +75,10 @@ resource "google_compute_region_health_check" "this" {
   }
 }
 
-resource "google_compute_firewall" "allow-health-check" {
-  name        = format("%s-allow-health-check", local.network_name)
-  description = "The ingress rule allows traffic from the Google Cloud health checking systems (130.211.0.0/22 and 35.191.0.0/16). This uses the target tag lb-health-check to identify the VMs"
-  network     = local.network_name
+resource "google_compute_firewall" "allow-to-backend-instance" {
+  name        = format("%s-allow-allow-to-backend-instance", local.network_name)
+  description = "The ingress rule allows traffic from the forwarding rule and health checks to communicate with instances in backend group."
+  network     = var.network
 
   allow {
     protocol = lower(var.ip_protocol)
@@ -86,6 +86,21 @@ resource "google_compute_firewall" "allow-health-check" {
   }
 
   direction     = "INGRESS"
-  source_ranges = ["130.211.0.0/22", "35.191.0.0/16"]
-  target_tags   = ["lb-health-check"]
+  source_ranges = [google_compute_address.this.address]
+  target_tags   = var.backend_network_tags
 }
+
+# resource "google_compute_firewall" "allow-health-check" {
+#   name        = format("%s-allow-health-check", local.network_name)
+#   description = "The ingress rule allows traffic from the Google Cloud health checking systems (130.211.0.0/22 and 35.191.0.0/16). This uses the target tag lb-health-check to identify the VMs"
+#   network     = var.network
+
+#   allow {
+#     protocol = lower(var.ip_protocol)
+#     ports    = [var.port]
+#   }
+
+#   direction     = "INGRESS"
+#   source_ranges = ["130.211.0.0/22", "35.191.0.0/16"]
+#   target_tags   = ["lb-health-check"]
+# }

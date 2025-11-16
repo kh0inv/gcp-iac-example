@@ -12,7 +12,7 @@ locals {
 }
 
 resource "google_compute_address" "external_ip" {
-  count  = var.external_ip != "" && var.allocate_external_ip ? 1 : 0
+  count  = var.external_ip != "" ? 1 : 0
   name   = coalesce(var.external_ip_name, "${var.vm_name}-ip")
   region = var.region
 }

@@ -35,4 +35,5 @@ inputs = {
   network                = dependency.vpc_network.outputs.network
   subnetwork             = dependency.vpc_network.outputs.subnetwork
   backend_instance_group = dependency.managed_instance_group.outputs.instance_group
+  backend_network_tags   = ["backend", "lb-health-check"]
 }

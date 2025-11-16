@@ -133,7 +133,7 @@ variable "metadata_startup_script" {
 }
 
 variable "allocate_external_ip" {
-  description = "When set to true, the external IP address will be allocated for the instance. If false, the instance will only has an internal IP address."
+  description = "If true and `external_ip` is not set, an ephemeral external IP address will be created and associated with the VM instance. If false, the instance will have an internal IP address only. This variable is ignored if `external_ip` is set."
   type        = bool
   default     = true
 }

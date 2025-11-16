@@ -101,3 +101,9 @@ variable "health_check_name" {
   type        = string
   default     = ""
 }
+
+variable "health_check_path" {
+  description = "The request path of the health check. The default is /."
+  type        = string
+  default     = "/"
+}

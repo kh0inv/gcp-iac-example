@@ -13,3 +13,24 @@ resource "google_compute_subnetwork" "this" {
 
   depends_on = [google_compute_network.this]
 }
+
+resource "google_compute_firewall" "allow_internal" {
+  name    = format("%s-allow-internal", var.network_name)
+  network = google_compute_network.this.self_link
+
+  allow {
+    protocol = "icmp"
+  }
+
+  allow {
+    protocol = "tcp"
+    ports    = ["0-65535"]
+  }
+
+  allow {
+    protocol = "udp"
+    ports    = ["0-65535"]
+  }
+
+  source_ranges = [var.subnetwork_ip_cidr_range]
+}

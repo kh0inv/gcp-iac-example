@@ -16,6 +16,7 @@ resource "google_compute_forwarding_rule" "this" {
   target                = local.create_proxy ? google_compute_region_target_http_proxy.this[0].id : null
   backend_service       = google_compute_region_backend_service.this.id
   network               = var.network
+  subnetwork            = var.subnetwork
 
   depends_on = [
     google_compute_address.this,
@@ -29,7 +30,8 @@ resource "google_compute_address" "this" {
   address_type = local.create_internal_load_balancing ? "INTERNAL" : "EXTERNAL"
   ip_version   = var.ip_version
   region       = var.region
-  network      = var.network
+  #network      = var.network
+  subnetwork = var.subnetwork
 }
 
 resource "google_compute_region_target_http_proxy" "this" {
@@ -71,12 +73,13 @@ resource "google_compute_region_health_check" "this" {
   region = var.region
 
   http_health_check {
-    port = var.port
+    request_path = var.health_check_path
+    port         = var.port
   }
 }
 
 resource "google_compute_firewall" "allow-to-backend-instance" {
-  name        = format("%s-allow-allow-to-backend-instance", local.network_name)
+  name        = format("%s-allow-to-backend-instance", local.network_name)
   description = "The ingress rule allows traffic from the forwarding rule and health checks to communicate with instances in backend group."
   network     = var.network
 

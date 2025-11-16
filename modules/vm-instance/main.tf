@@ -1,6 +1,7 @@
 locals {
-  external_ip     = coalesce(var.external_ip, google_compute_address.external_ip.0.address)
-  google_iap_cidr = "35.235.240.0/20"
+  create_external_ip = var.external_ip == "" && var.allocate_external_ip
+  use_external_ip    = var.external_ip != "" || local.create_external_ip
+  google_iap_cidr    = "35.235.240.0/20"
 
   network_name = basename(var.network)
   all_network_tags = distinct(concat(
@@ -12,7 +13,7 @@ locals {
 }
 
 resource "google_compute_address" "external_ip" {
-  count  = var.external_ip != "" ? 1 : 0
+  count  = local.create_external_ip ? 1 : 0
   name   = coalesce(var.external_ip_name, "${var.vm_name}-ip")
   region = var.region
 }
@@ -32,12 +33,13 @@ resource "google_compute_instance" "this" {
   }
 
   network_interface {
-    network = var.network
+    network    = var.network
+    subnetwork = var.subnetwork
 
     dynamic "access_config" {
-      for_each = var.external_ip != "" ? [true] : []
+      for_each = local.use_external_ip ? [true] : []
       content {
-        nat_ip = local.external_ip
+        nat_ip = var.external_ip != "" ? var.external_ip : google_compute_address.external_ip[0].address
       }
     }
   }

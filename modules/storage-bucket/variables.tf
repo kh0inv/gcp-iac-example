@@ -8,3 +8,21 @@ variable "location" {
   type        = string
   default     = ""
 }
+
+variable "uniform_bucket_level_access" {
+  description = "Ensure uniform access to all objects in the bucket by using only bucket-level permissions (IAM). This option becomes permanent after 90 days."
+  type        = bool
+  default     = false
+}
+
+variable "bucket_access_role" {
+  description = "The bucket-level role to grant to the entity. This is only applied when `uniform_bucket_level_access` is `true`."
+  type        = string
+  default     = ""
+}
+
+variable "bucket_access_entity" {
+  description = "The bucket-level entity to grant access to. This is only applied when `uniform_bucket_level_access` is `true`."
+  type        = string
+  default     = ""
+}

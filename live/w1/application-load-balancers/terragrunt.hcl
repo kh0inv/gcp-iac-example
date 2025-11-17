@@ -26,15 +26,16 @@ dependency "managed_instance_group" {
 }
 
 inputs = {
-  region                 = include.env.inputs.region
-  load_balancer_name     = format("%s-ilb", include.env.inputs.name_suffix)
-  load_balancing_scheme  = "INTERNAL"
-  port                   = 80
-  protocol               = "TCP"
-  ip_protocol            = "TCP"
-  network                = dependency.vpc_network.outputs.network
-  subnetwork             = dependency.vpc_network.outputs.subnetwork
-  backend_instance_group = dependency.managed_instance_group.outputs.instance_group
-  backend_network_tags   = ["backend", "lb-health-check"]
-  health_check_path      = "/2"
+  region                   = include.env.inputs.region
+  create_regional_services = false
+  load_balancer_name       = format("%s-ilb", include.env.inputs.name_suffix)
+  load_balancing_scheme    = "EXTERNAL"
+  port                     = 80
+  protocol                 = "HTTP"
+  ip_protocol              = "TCP"
+  network                  = dependency.vpc_network.outputs.network
+  subnetwork               = dependency.vpc_network.outputs.subnetwork
+  backend_instance_group   = dependency.managed_instance_group.outputs.instance_group
+  backend_network_tags     = ["backend", "lb-health-check"]
+  health_check_path        = "/"
 }

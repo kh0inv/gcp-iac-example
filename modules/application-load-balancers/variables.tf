@@ -18,8 +18,14 @@ variable "forwarding_rule_name" {
   default     = ""
 }
 
+variable "create_regional_services" {
+  description = "Decides whether to create regional resources. When set to `true`, common use cases include creating regional internal and external Application Load Balancers. The `region` variable is required if this is set to `true`."
+  type        = bool
+  default     = false
+}
+
 variable "region" {
-  description = "The region where the load balancer and its components will be created."
+  description = "The region where the load balancer and its components will be created. It is required if `create_regional_services` is set to `true`"
   type        = string
 }
 

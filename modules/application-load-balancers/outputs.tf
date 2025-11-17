@@ -15,10 +15,20 @@ output "forwarding_rule_name" {
 
 output "backend_service" {
   description = "The self-link of the backend service."
-  value       = google_compute_region_backend_service.this.self_link
+  value       = var.create_regional_services ? "" : google_compute_backend_service.this[0].self_link
 }
 
 output "backend_service_name" {
   description = "The name of the backend service."
-  value       = google_compute_region_backend_service.this.name
+  value       = var.create_regional_services ? "" : google_compute_backend_service.this[0].name
+}
+
+output "region_backend_service" {
+  description = "The self-link of the regional backend service."
+  value       = var.create_regional_services ? google_compute_region_backend_service.this[0].self_link : ""
+}
+
+output "region_backend_service_name" {
+  description = "The name of the regional backend service."
+  value       = var.create_regional_services ? google_compute_region_backend_service.this[0].name : ""
 }

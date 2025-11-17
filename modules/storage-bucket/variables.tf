@@ -15,14 +15,14 @@ variable "uniform_bucket_level_access" {
   default     = false
 }
 
-variable "bucket_access_role" {
-  description = "The bucket-level role to grant to the entity. This is only applied when `uniform_bucket_level_access` is `true`."
-  type        = string
-  default     = ""
+variable "use_access_control_lists" {
+  description = "If true, we will use `google_storage_bucket_acl` resource to control access to individual buckets or objects, then do not use `google_storage_bucket_access_control` resource."
+  type        = bool
+  default     = false
 }
 
-variable "bucket_access_entity" {
-  description = "The bucket-level entity to grant access to. This is only applied when `uniform_bucket_level_access` is `true`."
-  type        = string
-  default     = ""
+variable "role_entity_list" {
+  description = "A list of role-entity pairs to be applied to the bucket, in the format 'ROLE:entity'. For example: 'OWNER:user@example.com'."
+  type        = list(string)
+  default     = []
 }

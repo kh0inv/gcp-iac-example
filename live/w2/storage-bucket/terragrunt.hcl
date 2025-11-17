@@ -22,6 +22,8 @@ inputs = {
   location    = "US-CENTRAL1"
 
   uniform_bucket_level_access = true
-  bucket_access_role          = "READER"
-  bucket_access_entity        = "allUsers"
+  role_entity_list = [
+    "OWNER:student-03-a90fa6d5c1e0@qwiklabs.net",
+    "READER:allUsers"
+  ]
 }

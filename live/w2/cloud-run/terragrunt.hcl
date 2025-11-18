@@ -18,7 +18,11 @@ include "env" {
 }
 
 inputs = {
-  service_name       = "cloudrun-service"
-  location           = include.env.inputs.region
-  max_instance_count = 5
+  service_name             = "cloudrun-service"
+  location                 = include.env.inputs.region
+  max_instance_count       = 5
+  template_container_image = "us-docker.pkg.dev/cloudrun/container/hello"
+
+  eventarc_trigger_name = "demo-pubsub-to-cloudrun"
+  pubsub_topic_name     = "demo-pubsub"
 }

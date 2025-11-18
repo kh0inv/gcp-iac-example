@@ -1,6 +1,6 @@
 resource "google_cloud_run_v2_service" "this" {
   name                = var.service_name
-  location            = var.location
+  location            = var.region
   deletion_protection = var.deletion_protection
   ingress             = var.ingress
 
@@ -12,7 +12,34 @@ resource "google_cloud_run_v2_service" "this" {
   template {
     execution_environment = var.execution_environment
     containers {
-      image = "us-docker.pkg.dev/cloudrun/container/hello"
+      image = var.template_container_image
     }
   }
+}
+
+resource "google_eventarc_trigger" "this" {
+  name     = var.eventarc_trigger_name
+  location = var.region
+
+  matching_criteria {
+    attribute = "type"
+    value     = "google.cloud.pubsub.topic.v1.messagePublished"
+  }
+
+  destination {
+    cloud_run_service {
+      service = google_cloud_run_v2_service.this.name
+      region  = var.region
+    }
+  }
+
+  transport {
+    pubsub {
+      topic = google_pubsub_topic.this.id
+    }
+  }
+}
+
+resource "google_pubsub_topic" "this" {
+  name = var.pubsub_topic_name
 }

@@ -4,8 +4,8 @@ variable "service_name" {
   default     = ""
 }
 
-variable "location" {
-  description = "The location of the cloud run service. It is also gcp region."
+variable "region" {
+  description = "The location (region) of the cloud run service."
   type        = string
   default     = ""
 }
@@ -28,6 +28,12 @@ variable "max_instance_count" {
   default     = 1
 }
 
+variable "template_container_image" {
+  description = "The container image to deploy."
+  type        = string
+  default     = ""
+}
+
 variable "ingress" {
   description = "Provides the ingress settings for this Service. On output, returns the currently observed ingress settings, or INGRESS_TRAFFIC_UNSPECIFIED if no revision is active. Possible values are: INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY, INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER."
   type        = string
@@ -46,4 +52,16 @@ variable "execution_environment" {
     condition     = contains(["EXECUTION_ENVIRONMENT_GEN1", "EXECUTION_ENVIRONMENT_GEN2"], var.execution_environment)
     error_message = "Possible values are: EXECUTION_ENVIRONMENT_GEN1, EXECUTION_ENVIRONMENT_GEN2."
   }
+}
+
+variable "eventarc_trigger_name" {
+  description = "The name of the eventarc trigger."
+  type        = string
+  default     = ""
+}
+
+variable "pubsub_topic_name" {
+  description = "The name of the pubsub topic."
+  type        = string
+  default     = ""
 }

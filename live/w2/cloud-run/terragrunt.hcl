@@ -18,6 +18,7 @@ include "env" {
 }
 
 inputs = {
-  service_name = "cloudrun-service"
-  location     = include.env.inputs.region
+  service_name       = "cloudrun-service"
+  location           = include.env.inputs.region
+  max_instance_count = 5
 }

@@ -60,8 +60,15 @@ variable "eventarc_trigger_name" {
   default     = ""
 }
 
-variable "pubsub_topic_name" {
-  description = "The name of the pubsub topic."
+variable "service_account_id" {
+  description = "The account id of the service account."
   type        = string
   default     = ""
 }
+
+variable "service_account_name" {
+  description = "The display name of the service account."
+  type        = string
+  default     = ""
+}
+

@@ -24,5 +24,6 @@ inputs = {
   template_container_image = "us-docker.pkg.dev/cloudrun/container/hello"
 
   eventarc_trigger_name = "demo-pubsub-to-cloudrun"
-  pubsub_topic_name     = "demo-pubsub"
+
+  pubsub_topic_name = "demo-pubsub"
 }

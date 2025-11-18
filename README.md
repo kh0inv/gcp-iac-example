@@ -19,22 +19,22 @@
 
 ## Week 4
 
-★ Otimize Cospts for Google Kubernetes Engine
+Otimize Cospts for Google Kubernetes Engine
 **Required**
 
 Elastic Google Cloud Infrastructure: Scaling and Automation
 
 ## Week 5
-★ Develop your Google Cloud Network
+Develop your Google Cloud Network
 **Required**
 
 Getting Started with Google Kubernetes Engine
 
 ## Week 6
-★ Set Up a Google Cloud Network
+Set Up a Google Cloud Network
 **Required**
 
-★ Cloud Architecture: Design, Implement, and Manage
+Cloud Architecture: Design, Implement, and Manage
 **Required**
 
 Reliable Google Cloud Infrastructure: Design and Process

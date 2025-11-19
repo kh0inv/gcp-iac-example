@@ -54,12 +54,6 @@ variable "execution_environment" {
   }
 }
 
-variable "eventarc_trigger_name" {
-  description = "The name of the eventarc trigger."
-  type        = string
-  default     = ""
-}
-
 variable "service_account_id" {
   description = "The account id of the service account."
   type        = string
@@ -71,4 +65,3 @@ variable "service_account_name" {
   type        = string
   default     = ""
 }
-

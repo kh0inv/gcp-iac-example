@@ -23,7 +23,6 @@ inputs = {
   max_instance_count       = 5
   template_container_image = "us-docker.pkg.dev/cloudrun/container/hello"
 
-  eventarc_trigger_name = "demo-pubsub-to-cloudrun"
-
-  pubsub_topic_name = "demo-pubsub"
+  service_account_id   = "cloud-run-pubsub-invoker"
+  service_account_name = "Cloud Run Pub/Sub Invoker"
 }

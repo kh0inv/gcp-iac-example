@@ -32,6 +32,7 @@ inputs = {
   subnetwork             = dependency.vpc_network.outputs.subnetwork
   load_balancing_scheme  = "INTERNAL"
   ip_protocol            = "TCP"
+  ports                  = ["80"]
   backend_instance_group = dependency.managed_instance_group.outputs.instance_group
   backend_network_tags   = ["backend", "lb-health-check"]
   health_check_port      = "80"

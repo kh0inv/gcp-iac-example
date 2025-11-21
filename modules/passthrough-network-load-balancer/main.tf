@@ -1,7 +1,12 @@
+locals {
+  create_internal_load_balancing = contains(["INTERNAL", "INTERNAL_MANAGED"], var.load_balancing_scheme)
+}
+
 resource "google_compute_forwarding_rule" "this" {
-  name                  = coalesce(var.forwarding_rule_name, "${var.name}-forwarding-rule")
+  name   = coalesce(var.forwarding_rule_name, "${var.load_balancer_name}-forwarding-rule")
+  region = var.region
+
   backend_service       = google_compute_region_backend_service.this.id
-  region                = var.region
   ip_protocol           = var.ip_protocol
   load_balancing_scheme = var.load_balancing_scheme
   all_ports             = var.all_ports
@@ -9,10 +14,27 @@ resource "google_compute_forwarding_rule" "this" {
   allow_global_access   = var.allow_global_access
   network               = var.network
   subnetwork            = var.subnetwork
+
+  depends_on = [
+    google_compute_address.this,
+    google_compute_target_http_proxy.this,
+    google_compute_backend_service.this,
+    google_compute_region_target_http_proxy.this,
+    google_compute_region_backend_service.this
+  ]
+}
+
+resource "google_compute_address" "this" {
+  name         = coalesce(var.ip_name, "${var.load_balancer_name}-ip")
+  address_type = local.create_internal_load_balancing ? "INTERNAL" : "EXTERNAL"
+  ip_version   = var.ip_version
+  region       = var.region
+  network      = local.create_internal_load_balancing ? var.network : ""
+  subnetwork   = local.create_internal_load_balancing ? var.subnetwork : ""
 }
 
 resource "google_compute_region_backend_service" "this" {
-  name                  = coalesce(var.backend_service_name, "${var.name}-backend-service")
+  name                  = coalesce(var.backend_service_name, "${var.load_balancer_name}-backend-service")
   region                = var.region
   protocol              = var.ip_protocol
   load_balancing_scheme = var.load_balancing_scheme
@@ -25,7 +47,7 @@ resource "google_compute_region_backend_service" "this" {
 }
 
 resource "google_compute_region_health_check" "this" {
-  name   = coalesce(var.health_check_name, "${var.name}-health-check")
+  name   = coalesce(var.health_check_name, "${var.load_balancer_name}-health-check")
   region = var.region
 
   http_health_check {
@@ -36,14 +58,14 @@ resource "google_compute_region_health_check" "this" {
 # allow all access from health check ranges
 resource "google_compute_firewall" "allow_health_check" {
   count         = var.create_firewall_rules ? 1 : 0
-  name          = "${var.name}-fw-allow-hc"
+  name          = "${var.load_balancer_name}-fw-allow-health-check"
   direction     = "INGRESS"
   network       = var.network
   source_ranges = var.health_check_source_ranges
 
   allow {
     protocol = lower(var.ip_protocol)
-    ports    = [var.health_check_port]
+    ports    = var.all_ports ? null : var.ports
   }
 
   target_tags = var.backend_network_tags
@@ -52,7 +74,7 @@ resource "google_compute_firewall" "allow_health_check" {
 # allow communication within the subnet
 resource "google_compute_firewall" "allow_lb_to_backends" {
   count         = var.create_firewall_rules && length(var.lb_source_ranges) > 0 ? 1 : 0
-  name          = "${var.name}-fw-allow-lb-to-backends"
+  name          = "${var.load_balancer_name}-fw-allow-lb-to-backends"
   direction     = "INGRESS"
   network       = var.network
   source_ranges = var.lb_source_ranges

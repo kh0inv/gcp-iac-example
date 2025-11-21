@@ -1,6 +1,24 @@
-variable "name" {
+variable "load_balancer_name" {
   description = "A name prefix for the load balancer and its related resources."
   type        = string
+}
+
+variable "forwarding_rule_name" {
+  description = "The name of the forwarding rule. If not provided, a name will be generated."
+  type        = string
+  default     = ""
+}
+
+variable "backend_service_name" {
+  description = "The name of the backend service. If not provided, a name will be generated."
+  type        = string
+  default     = ""
+}
+
+variable "health_check_name" {
+  description = "The name of the health check. If not provided, a name will be generated."
+  type        = string
+  default     = ""
 }
 
 variable "region" {
@@ -28,6 +46,18 @@ variable "load_balancing_scheme" {
   }
 }
 
+variable "ip_name" {
+  description = "The name of the ip address."
+  type        = string
+  default     = ""
+}
+
+variable "ip_version" {
+  description = "The IP Version that will be used by this address. Valid options are IPV4 or IPV6."
+  type        = string
+  default     = "IPV4"
+}
+
 variable "ip_protocol" {
   description = "The IP protocol to which this rule applies. For regional internal passthrough Network Load Balancers, valid values are TCP, UDP, and L3_DEFAULT."
   type        = string
@@ -37,7 +67,7 @@ variable "ip_protocol" {
 variable "all_ports" {
   description = "If true, all ports are forwarded. If false, only the ports specified in `ports` are forwarded."
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "ports" {
@@ -67,12 +97,6 @@ variable "balancing_mode" {
   }
 }
 
-variable "health_check_port" {
-  description = "The port number for the health check."
-  type        = string
-  default     = "80"
-}
-
 variable "create_firewall_rules" {
   description = "If true, firewall rules for health checks and load balancer source ranges will be created."
   type        = bool
@@ -85,6 +109,12 @@ variable "health_check_source_ranges" {
   default     = ["130.211.0.0/22", "35.191.0.0/16"]
 }
 
+variable "health_check_port" {
+  description = "The port number for the health check."
+  type        = string
+  default     = "80"
+}
+
 variable "lb_source_ranges" {
   description = "Source IP ranges to allow for load balancer traffic to the backends."
   type        = list(string)
@@ -95,22 +125,4 @@ variable "backend_network_tags" {
   description = "A list of network tags to apply to the firewall rules."
   type        = list(string)
   default     = []
-}
-
-variable "forwarding_rule_name" {
-  description = "The name of the forwarding rule. If not provided, a name will be generated."
-  type        = string
-  default     = null
-}
-
-variable "backend_service_name" {
-  description = "The name of the backend service. If not provided, a name will be generated."
-  type        = string
-  default     = null
-}
-
-variable "health_check_name" {
-  description = "The name of the health check. If not provided, a name will be generated."
-  type        = string
-  default     = null
 }

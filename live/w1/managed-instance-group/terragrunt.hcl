@@ -37,5 +37,5 @@ inputs = {
   network_tags         = ["backend", "lb-health-check"]
   allocate_external_ip = false
 
-  metadata_startup_script = file("${get_repo_root()}/scripts/primes-game/backend.sh")
+  metadata_startup_script = file("${get_repo_root()}/scripts/setup-a-simple-nginx-web.sh")
 }

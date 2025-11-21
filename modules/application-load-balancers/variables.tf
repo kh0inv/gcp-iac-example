@@ -91,6 +91,16 @@ variable "backend_service_name" {
   default     = ""
 }
 
+variable "balancing_mode" {
+  description = "Defines how to distribute traffic to backends. Possible values are: UTILIZATION, RATE, CONNECTION, CUSTOM_METRICS."
+  type        = string
+  default     = "UTILIZATION"
+  validation {
+    condition     = contains(["UTILIZATION", "RATE", "CONNECTION", "CUSTOM_METRICS"], var.balancing_mode)
+    error_message = "Possible values are: UTILIZATION, RATE, CONNECTION, CUSTOM_METRICS."
+  }
+}
+
 variable "backend_instance_group" {
   description = "The instance group that will receive traffic from the forwarding rule."
   type        = string

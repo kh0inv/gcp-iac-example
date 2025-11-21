@@ -30,6 +30,7 @@ inputs = {
   create_regional_services = true
   load_balancer_name       = format("%s-ilb", include.env.inputs.name_suffix)
   load_balancing_scheme    = "EXTERNAL"
+  balancing_mode           = "CONNECTION"
   port                     = 80
   protocol                 = "HTTP"
   ip_protocol              = "TCP"

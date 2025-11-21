@@ -26,7 +26,7 @@ resource "google_pubsub_subscription" "this" {
 data "google_project" "project" {}
 
 resource "google_project_iam_member" "pubsub_token_creator" {
-  count   = var.enable_push_authentication ? [true] : []
+  count   = var.enable_push_authentication ? 1 : 0
   project = data.google_project.project.project_id
   role    = "roles/iam.serviceAccountTokenCreator"
   member  = "serviceAccount:service-${data.google_project.project.number}@gcp-sa-pubsub.iam.gserviceaccount.com"

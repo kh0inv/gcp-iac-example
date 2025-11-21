@@ -19,22 +19,22 @@
 
 ## Week 4
 
-Otimize Cospts for Google Kubernetes Engine
+[Otimize Cospts for Google Kubernetes Engine](https://www.skills.google/course_templates/655)
 **Required**
 
-Elastic Google Cloud Infrastructure: Scaling and Automation
+[Elastic Google Cloud Infrastructure: Scaling and Automation](https://www.skills.google/course_templates/178)
 
 ## Week 5
-Develop your Google Cloud Network
+[Develop your Google Cloud Network](https://www.skills.google/course_templates/625)
 **Required**
 
-Getting Started with Google Kubernetes Engine
+[Getting Started with Google Kubernetes Engine](https://www.skills.google/course_templates/2)
 
 ## Week 6
-Set Up a Google Cloud Network
+[Set Up a Google Cloud Network](https://www.skills.google/course_templates/641)
 **Required**
 
-Cloud Architecture: Design, Implement, and Manage
+[Cloud Architecture: Design, Implement, and Manage](https://www.skills.google/course_templates/640)
 **Required**
 
-Reliable Google Cloud Infrastructure: Design and Process
+[Reliable Google Cloud Infrastructure: Design and Process](https://www.skills.google/course_templates/41)

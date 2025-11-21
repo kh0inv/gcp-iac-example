@@ -28,7 +28,7 @@ variable "max_instance_count" {
   default     = 1
 }
 
-variable "template_container_image" {
+variable "template_image" {
   description = "The container image to deploy."
   type        = string
   default     = ""
@@ -64,4 +64,9 @@ variable "service_account_name" {
   description = "The display name of the service account."
   type        = string
   default     = ""
+}
+
+variable "build_source_location" {
+  description = "The location of the source code."
+  type        = string
 }

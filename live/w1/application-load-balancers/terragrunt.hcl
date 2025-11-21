@@ -27,7 +27,7 @@ dependency "managed_instance_group" {
 
 inputs = {
   region                   = include.env.inputs.region
-  create_regional_services = false
+  create_regional_services = true
   load_balancer_name       = format("%s-ilb", include.env.inputs.name_suffix)
   load_balancing_scheme    = "EXTERNAL"
   port                     = 80

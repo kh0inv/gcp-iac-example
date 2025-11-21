@@ -3,7 +3,7 @@ const { Storage } = require('@google-cloud/storage');
 const { PubSub } = require('@google-cloud/pubsub');
 const sharp = require('sharp');
 
-functions.cloudEvent('', async cloudEvent => {
+functions.cloudEvent('memories-thumbnail-generator', async cloudEvent => {
   const event = cloudEvent.data;
 
   console.log(`Event: ${JSON.stringify(event)}`);
@@ -13,7 +13,7 @@ functions.cloudEvent('', async cloudEvent => {
   const bucketName = event.bucket;
   const size = "64x64";
   const bucket = new Storage().bucket(bucketName);
-  const topicName = "";
+  const topicName = "topic-memories-733";
   const pubsub = new PubSub();
 
   if (fileName.search("64x64_thumbnail") === -1) {

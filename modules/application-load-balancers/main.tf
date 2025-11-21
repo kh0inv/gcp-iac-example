@@ -96,8 +96,9 @@ resource "google_compute_region_backend_service" "this" {
   health_checks = [google_compute_region_health_check.this[0].id]
 
   backend {
-    group          = var.backend_instance_group
-    balancing_mode = local.create_internal_load_balancing ? "CONNECTION" : "UTILIZATION"
+    group           = var.backend_instance_group
+    balancing_mode  = local.create_internal_load_balancing ? "CONNECTION" : "UTILIZATION"
+    capacity_scaler = 1.0
   }
 
   depends_on = [google_compute_region_health_check.this]

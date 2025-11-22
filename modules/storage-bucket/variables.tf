@@ -63,9 +63,21 @@ variable "use_access_control_lists" {
 }
 
 variable "role_entity_list" {
-  description = "A list of role-entity pairs to be applied to the bucket, in the format 'ROLE:entity'. For example: 'OWNER:user@example.com'."
-  type        = list(string)
-  default     = []
+  description = "A list of role-entity pairs to be applied to the bucket."
+  type = list(object({
+    role   = string
+    entity = string
+  }))
+  default = [{ role = "", entity = "" }]
+}
+
+variable "iam_members" {
+  description = "The list of IAM members to grant permissions on the bucket."
+  type = list(object({
+    role   = string
+    member = string
+  }))
+  default = []
 }
 
 variable "lifecycle_rules" {

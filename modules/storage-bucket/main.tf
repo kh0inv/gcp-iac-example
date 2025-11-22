@@ -1,14 +1,4 @@
-locals {
-  bucket_access_controls = {
-    for item in var.role_entity_list : replace(item, ":", "-") => { role = split(":", item)[0], entity = split(":", item)[1] }
-  }
-}
-
-output "bucket_access_controls" {
-  value = local.bucket_access_controls
-}
-
-resource "google_storage_bucket" "bucket" {
+resource "google_storage_bucket" "this" {
   name                        = var.bucket_name
   location                    = var.location
   storage_class               = var.storage_class
@@ -53,8 +43,29 @@ resource "google_storage_bucket" "bucket" {
   }
 }
 
+locals {
+  iam_bindings_by_role = {
+    for role in distinct(var.iam_members[*].role) : role => [
+      for member in var.iam_members : member.member if member.role == role
+    ]
+  }
+}
+
+resource "google_storage_bucket_iam_binding" "this" {
+  for_each = var.uniform_bucket_level_access ? local.iam_bindings_by_role : {}
+  bucket   = google_storage_bucket.this.name
+  role     = each.key
+  members  = each.value
+}
+
+locals {
+  bucket_access_controls = {
+    for item in var.role_entity_list : "${item.role}-${item.entity}" => item
+  }
+}
+
 resource "google_storage_bucket_access_control" "this" {
-  for_each = var.use_access_control_lists ? {} : local.bucket_access_controls
+  for_each = !var.uniform_bucket_level_access && !var.use_access_control_lists ? local.bucket_access_controls : {}
   bucket   = google_storage_bucket.this.name
   role     = each.value.role
   entity   = each.value.entity
@@ -62,11 +73,15 @@ resource "google_storage_bucket_access_control" "this" {
   depends_on = [google_storage_bucket.this]
 }
 
+locals {
+  role_entity_list_strings = [for item in var.role_entity_list : "${item.role}:${item.entity}"]
+}
+
 resource "google_storage_bucket_acl" "this" {
-  count  = var.use_access_control_lists && length(var.role_entity_list) > 0 ? 1 : 0
+  count  = !var.uniform_bucket_level_access && var.use_access_control_lists && length(var.role_entity_list) > 0 ? 1 : 0
   bucket = google_storage_bucket.this.name
 
-  role_entity = var.role_entity_list
+  role_entity = local.role_entity_list_strings
 
   depends_on = [google_storage_bucket.this]
 }

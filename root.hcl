@@ -10,7 +10,7 @@ generate "provider" {
   if_exists = "overwrite_terragrunt"
   contents  = <<EOF
 provider "google" {
-  project      = "${local.env_configs.inputs.project_name}"
+  project      = "${local.env_configs.inputs.project_id}"
   region       = "${local.env_configs.inputs.region}"
 }
 EOF

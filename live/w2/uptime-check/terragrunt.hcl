@@ -20,6 +20,6 @@ include "env" {
 inputs = {
   display_name  = "Lamp Uptime Check 2"
   instance_name = "lamp-1-vm"
-  project_id    = include.env.inputs.project_name
+  project_id    = include.env.inputs.project_id
   zone          = include.env.inputs.zone
 }

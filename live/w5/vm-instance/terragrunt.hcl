@@ -17,22 +17,18 @@ include "env" {
   expose = true
 }
 
-dependency "vpc_network" {
-  config_path = "../vpc-network"
-}
-
 inputs = {
-  vm_name      = format("%s-vm-%s", include.env.inputs.name_suffix, "frontend")
-  machine_type = "e2-standard-2"
+  vm_name      = "lamp-1-vm"
+  machine_type = "e2-medium"
   region       = include.env.inputs.region
   zone         = include.env.inputs.zone
 
   boot_disk_image = "debian-cloud/debian-12"
 
-  network      = dependency.vpc_network.outputs.network
-  subnetwork   = dependency.vpc_network.outputs.subnetwork
+  network      = "default"
+  subnetwork   = "default"
   network_tags = ["frontend"]
   allow_http   = true
 
-  metadata_startup_script = file("${get_repo_root()}/scripts/primes-game/frontend.sh")
+  metadata_startup_script = "sudo apt-get update && sudo apt-get install apache2 php7.0 && sudo service apache2 restart"
 }

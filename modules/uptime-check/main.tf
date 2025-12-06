@@ -11,7 +11,7 @@ resource "google_monitoring_uptime_check_config" "http" {
     type = "gce_instance"
     labels = {
       project_id  = var.project_id
-      instance_id = var.instance_name
+      instance_id = var.instance_id
       zone        = var.zone
     }
   }

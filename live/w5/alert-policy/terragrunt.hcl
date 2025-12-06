@@ -17,10 +17,13 @@ include "env" {
   expose = true
 }
 
-inputs = {
-  network_name            = format("%s-vpc", include.env.inputs.name_suffix)
-  auto_create_subnetworks = false
+dependency "vm_instance" {
+  config_path = "../vm-instance"
+}
 
-  subnetwork_name          = format("%s-vpc-subnet", include.env.inputs.name_suffix)
-  subnetwork_ip_cidr_range = "10.0.0.0/24"
+inputs = {
+  display_name       = "Inbound Traffic Alert"
+  project_id         = include.env.inputs.project_id
+  instance_name      = dependency.vm_instance.outputs.instance_name
+  notification_email = include.common.inputs.owner_email
 }

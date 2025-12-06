@@ -17,9 +17,13 @@ include "env" {
   expose = true
 }
 
+dependency "vm_instance" {
+  config_path = "../vm-instance"
+}
+
 inputs = {
-  display_name  = "Lamp Uptime Check 2"
-  instance_name = "lamp-1-vm"
-  project_id    = include.env.inputs.project_name
-  zone          = include.env.inputs.zone
+  display_name = "Lamp Uptime Check"
+  project_id   = include.env.inputs.project_id
+  zone         = include.env.inputs.zone
+  instance_id  = dependency.vm_instance.outputs.instance_id
 }

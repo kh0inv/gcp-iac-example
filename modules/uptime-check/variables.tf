@@ -3,11 +3,6 @@ variable "display_name" {
   type        = string
 }
 
-variable "instance_name" {
-  description = "The name of the GCE instance to check."
-  type        = string
-}
-
 variable "project_id" {
   description = "The ID of the project in which the resource belongs."
   type        = string
@@ -34,4 +29,9 @@ variable "port" {
   description = "The port to connect to. The default is 80."
   type        = number
   default     = 80
+}
+
+variable "instance_id" {
+  description = "The id of the GCE VM instance to check."
+  type        = string
 }

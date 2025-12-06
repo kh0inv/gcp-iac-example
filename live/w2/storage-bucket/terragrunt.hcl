@@ -19,7 +19,7 @@ include "env" {
 
 inputs = {
   # bucket_name = format("%s-bucket-%s", include.env.inputs.name_suffix, 1)
-  bucket_name = include.env.inputs.project_name
+  bucket_name = include.env.inputs.project_id
   location    = include.env.inputs.region
 
   # uniform_bucket_level_access = false

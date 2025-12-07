@@ -39,10 +39,18 @@ resource "google_cloud_run_v2_service" "this" {
   ]
 }
 
-# resource "google_service_account" "invoker" {
-#   account_id   = var.service_account_id
-#   display_name = var.service_account_name
-# }
+resource "google_service_account" "invoker" {
+  account_id   = coalesce(var.invoker_service_account_id, replace(lower(var.invoker_service_account_name), " ", "-"))
+  display_name = var.invoker_service_account_name
+}
+
+resource "google_service_account_key" "invoker_key" {
+  service_account_id = google_service_account.invoker.name
+
+  depends_on = [
+    google_service_account.invoker
+  ]
+}
 
 # resource "google_cloud_run_v2_service_iam_binding" "invoker" {
 #   location = var.region
@@ -58,3 +66,11 @@ resource "google_cloud_run_v2_service" "this" {
 #     google_service_account.invoker
 #   ]
 # }
+
+resource "google_cloud_run_v2_service_iam_member" "public_invoker" {
+  count    = var.allow_unauthenticated ? 1 : 0
+  name     = google_cloud_run_v2_service.this.name
+  location = google_cloud_run_v2_service.this.location
+  role     = "roles/run.invoker"
+  member   = "allUsers"
+}

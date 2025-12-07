@@ -54,14 +54,14 @@ variable "execution_environment" {
   }
 }
 
-variable "service_account_id" {
-  description = "The account id of the service account."
+variable "invoker_service_account_id" {
+  description = "The account id of the invoker service account."
   type        = string
   default     = ""
 }
 
-variable "service_account_name" {
-  description = "The display name of the service account."
+variable "invoker_service_account_name" {
+  description = "The display name of the invoker service account."
   type        = string
   default     = ""
 }
@@ -69,4 +69,11 @@ variable "service_account_name" {
 variable "build_source_location" {
   description = "The location of the source code."
   type        = string
+  default     = ""
+}
+
+variable "allow_unauthenticated" {
+  description = "If true, allows unauthenticated access to the Cloud Run service."
+  type        = bool
+  default     = false
 }

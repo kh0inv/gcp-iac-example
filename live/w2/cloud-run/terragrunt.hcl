@@ -18,11 +18,11 @@ include "env" {
 }
 
 inputs = {
-  name                     = "cloudrun-service"
-  location                 = include.env.inputs.region
-  max_instance_count       = 5
-  template_container_image = "us-docker.pkg.dev/cloudrun/container/hello"
+  name               = "billing-service"
+  location           = include.env.inputs.region
+  max_instance_count = 2
+  template_image     = "gcr.io/qwiklabs-resources/gsp723-parking-service"
 
-  service_account_id   = "cloud-run-pubsub-invoker"
-  service_account_name = "Cloud Run Pub/Sub Invoker"
+  allow_unauthenticated        = false
+  invoker_service_account_name = "Billing Initiator"
 }

@@ -18,7 +18,7 @@ include "env" {
 }
 
 inputs = {
-  service_name             = "cloudrun-service"
+  name                     = "cloudrun-service"
   location                 = include.env.inputs.region
   max_instance_count       = 5
   template_container_image = "us-docker.pkg.dev/cloudrun/container/hello"

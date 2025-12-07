@@ -1,4 +1,4 @@
-variable "service_name" {
+variable "name" {
   description = "The name of the cloud run service."
   type        = string
   default     = ""

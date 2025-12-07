@@ -3,7 +3,7 @@ resource "google_project_service" "cloud_run_admin_api" {
 }
 
 resource "google_cloud_run_v2_service" "this" {
-  name                = var.service_name
+  name                = var.name
   location            = var.region
   deletion_protection = var.deletion_protection
   ingress             = var.ingress
@@ -28,7 +28,7 @@ resource "google_cloud_run_v2_service" "this" {
     for_each = var.build_source_location != "" ? [true] : []
     content {
       source_location          = var.build_source_location
-      function_target          = var.service_name
+      function_target          = var.name
       base_image               = "${var.region}-docker.pkg.dev/serverless-runtimes/google-22-full/runtimes/nodejs22"
       enable_automatic_updates = true
     }

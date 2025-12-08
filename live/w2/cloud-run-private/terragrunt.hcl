@@ -1,5 +1,5 @@
 terraform {
-  source = "${get_repo_root()}/modules/${basename(get_terragrunt_dir())}"
+  source = "${get_repo_root()}/modules/cloud-run"
 }
 
 include "root" {
@@ -18,11 +18,11 @@ include "env" {
 }
 
 inputs = {
-  name               = "billing-service"
+  name               = "order-service"
   location           = include.env.inputs.region
   max_instance_count = 2
-  template_image     = "gcr.io/qwiklabs-resources/gsp723-parking-service"
+  template_image     = "gcr.io/qwiklabs-resources/gsp724-order-service"
 
   allow_public_access          = false
-  invoker_service_account_name = "Billing Initiator"
+  invoker_service_account_name = "Order Initiator"
 }

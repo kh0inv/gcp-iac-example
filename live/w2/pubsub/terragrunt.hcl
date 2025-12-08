@@ -17,14 +17,14 @@ include "env" {
   expose = true
 }
 
-dependency "cloud_run" {
-  config_path = "../cloud-run"
+dependency "cloud_run_private" {
+  config_path = "../cloud-run-private"
 }
 
 inputs = {
-  pubsub_topic_name               = "myRunTopic"
-  pubsub_subscription_name        = "myRunSubscription "
-  push_endpoint                   = dependency.cloud_run.outputs.service_url
-  push_auth_service_account_email = dependency.cloud_run.invoker_service_account_email
+  pubsub_topic_name               = "ORDER_PLACED"
+  pubsub_subscription_name        = "order-service-sub"
+  push_endpoint                   = dependency.cloud_run_private.outputs.cloud_run_url
+  push_auth_service_account_email = dependency.cloud_run_private.outputs.invoker_service_account_email
   enable_push_authentication      = true
 }

@@ -15,11 +15,11 @@ output "cloud_run_name" {
 
 output "invoker_service_account_email" {
   description = "The email of the service account."
-  value       = google_service_account.invoker.email
+  value       = var.allow_public_access ? "" : google_service_account.invoker[0].email
 }
 
 output "invoker_service_account_key" {
   description = "The private key for the service account, base64 encoded."
-  value       = google_service_account_key.invoker_key.private_key
+  value       = var.allow_public_access ? "" : google_service_account_key.invoker_key[0].private_key
   sensitive   = true
 }

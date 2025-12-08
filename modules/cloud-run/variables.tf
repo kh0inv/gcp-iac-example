@@ -72,7 +72,7 @@ variable "build_source_location" {
   default     = ""
 }
 
-variable "allow_unauthenticated" {
+variable "allow_public_access" {
   description = "If true, allows unauthenticated access to the Cloud Run service."
   type        = bool
   default     = false

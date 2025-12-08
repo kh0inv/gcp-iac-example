@@ -1,4 +1,4 @@
-resource "google_project_service" "cloud_run_admin_api" {
+resource "google_project_service" "cloud_run_api" {
   service = "run.googleapis.com"
 }
 
@@ -35,40 +35,43 @@ resource "google_cloud_run_v2_service" "this" {
   }
 
   depends_on = [
-    google_project_service.cloud_run_admin_api
+    google_project_service.cloud_run_api
   ]
 }
 
 resource "google_service_account" "invoker" {
+  count        = var.allow_public_access ? 0 : 1
   account_id   = coalesce(var.invoker_service_account_id, replace(lower(var.invoker_service_account_name), " ", "-"))
   display_name = var.invoker_service_account_name
 }
 
 resource "google_service_account_key" "invoker_key" {
-  service_account_id = google_service_account.invoker.name
+  count              = var.allow_public_access ? 0 : 1
+  service_account_id = google_service_account.invoker[0].name
 
   depends_on = [
     google_service_account.invoker
   ]
 }
 
-# resource "google_cloud_run_v2_service_iam_binding" "invoker" {
-#   location = var.region
-#   name     = google_cloud_run_v2_service.this.name
+resource "google_cloud_run_v2_service_iam_binding" "invoker" {
+  count    = var.allow_public_access ? 0 : 1
+  location = var.region
+  name     = google_cloud_run_v2_service.this.name
 
-#   role = "roles/run.invoker"
-#   members = [
-#     "serviceAccount:${google_service_account.invoker.email}"
-#   ]
+  role = "roles/run.invoker"
+  members = [
+    "serviceAccount:${google_service_account.invoker[0].email}"
+  ]
 
-#   depends_on = [
-#     google_cloud_run_v2_service.this,
-#     google_service_account.invoker
-#   ]
-# }
+  depends_on = [
+    google_cloud_run_v2_service.this,
+    google_service_account.invoker
+  ]
+}
 
 resource "google_cloud_run_v2_service_iam_member" "public_invoker" {
-  count    = var.allow_unauthenticated ? 1 : 0
+  count    = var.allow_public_access ? 1 : 0
   name     = google_cloud_run_v2_service.this.name
   location = google_cloud_run_v2_service.this.location
   role     = "roles/run.invoker"

@@ -18,19 +18,13 @@ include "env" {
 }
 
 inputs = {
-  # name = format("%s-bucket-%s", include.env.inputs.name_suffix, 1)
-  name     = include.env.inputs.project_id
+  name = format("%s-bucket", include.env.inputs.name_suffix)
+  # name = include.env.inputs.project_id
   location = include.env.inputs.region
-
-  # uniform_bucket_level_access = false
-  # role_entity_list = [
-  #   { role = "OWNER", entity = "student-03-49af286529b5@qwiklabs.net" },
-  #   { role = "READER", entity = "allUsers" }
-  # ]
 
   uniform_bucket_level_access = true
   iam_members = [
     { role = "roles/storage.objectViewer", member = "allUsers" },
-    { role = "roles/storage.admin", member = "user:student-03-49af286529b5@qwiklabs.net" }
+    { role = "roles/storage.admin", member = "user:student-00-dd08da140587@qwiklabs.net" }
   ]
 }

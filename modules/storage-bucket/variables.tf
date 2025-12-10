@@ -1,4 +1,4 @@
-variable "bucket_name" {
+variable "name" {
   description = "A universally unique name for the bucket. Considered a 'domain name' if the value contains one (or more) period/dot [.]."
   type        = string
 }

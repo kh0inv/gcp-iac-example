@@ -1,5 +1,5 @@
 resource "google_storage_bucket" "this" {
-  name                        = var.bucket_name
+  name                        = var.name
   location                    = var.location
   storage_class               = var.storage_class
   labels                      = var.labels

@@ -25,7 +25,13 @@ inputs = {
   root_password    = "GLkTU[Rf&321FS~C"
 
   settings = {
-    tier    = "db-custom-8-32768"
-    edition = "ENTERPRISE"
+    tier                  = "db-custom-8-32768"
+    edition               = "ENTERPRISE"
+    availability_type     = "REGIONAL"
+    disk_autoresize_limit = 250
+
+    location_preference = {
+      zone = "${include.env.inputs.region}-b"
+    }
   }
 }

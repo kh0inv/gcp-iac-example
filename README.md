@@ -26,15 +26,15 @@
 
 ## Week 5
 [Develop your Google Cloud Network](https://www.skills.google/course_templates/625)
-**Required** **(doing)**
+**Required** **(DONE)**
 
 [Getting Started with Google Kubernetes Engine](https://www.skills.google/course_templates/2)
 
 ## Week 6
 [Set Up a Google Cloud Network](https://www.skills.google/course_templates/641)
-**Required**
+**Required** **(DONE)**
 
 [Cloud Architecture: Design, Implement, and Manage](https://www.skills.google/course_templates/640)
-**Required**
+**Required** **(Doing)**
 
 [Reliable Google Cloud Infrastructure: Design and Process](https://www.skills.google/course_templates/41)

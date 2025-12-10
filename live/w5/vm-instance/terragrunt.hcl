@@ -30,5 +30,5 @@ inputs = {
   network_tags = ["frontend"]
   allow_http   = true
 
-  metadata_startup_script = "sudo apt-get update && sudo apt-get install apache2 php7.0 && sudo service apache2 restart"
+  metadata_startup_script = "sudo apt-get update && sudo apt-get install -y apache2 php && sudo service apache2 restart"
 }

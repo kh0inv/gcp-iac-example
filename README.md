@@ -20,7 +20,7 @@
 ## Week 4
 
 [Optimize Costs for Google Kubernetes Engine](https://www.skills.google/course_templates/655)
-**Required** **(skip)**
+**Required** **(DONE)**
 
 [Elastic Google Cloud Infrastructure: Scaling and Automation](https://www.skills.google/course_templates/178)
 
@@ -35,6 +35,6 @@
 **Required** **(DONE)**
 
 [Cloud Architecture: Design, Implement, and Manage](https://www.skills.google/course_templates/640)
-**Required** **(Doing)**
+**Required** **(DONE)**
 
 [Reliable Google Cloud Infrastructure: Design and Process](https://www.skills.google/course_templates/41)
